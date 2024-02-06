@@ -23,7 +23,9 @@ typedef struct {
 
 } Brush;
 
-int erode(OCTET *ImgIn, int nH, int nW, int nTaille);
+int erode(OCTET *ImgIn, OCTET *ImgOut, int nH, int nW, int nTaille);
 
-int dilate(OCTET *ImgIn, int nH, int nW, int nTaille);
+int dilate(OCTET *ImgIn, OCTET *ImgOut, int nH, int nW, int nTaille);
+
+int selection(OCTET *ImgIn, OCTET *ImgOut, int nH, int nW, int nTaille);
 #endif // THRESHOLD_H
