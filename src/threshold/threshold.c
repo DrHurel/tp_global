@@ -13,13 +13,7 @@ static int intCompare(const void *p1, const void *p2) {
     return 1;
 }
 
-OCTET *threshold_pgm(const UI_CONFIG config, const int argc, char **argv) {
-  int nH, nW, nTaille, S;
-  OCTET *ImgIn;
-  lire_nb_lignes_colonnes_image_pgm(config.target, &nH, &nW);
-
-  allocation_tableau(ImgIn, OCTET, nTaille);
-  lire_image_pgm(config.target, ImgIn, nH * nW);
+int threshold_pgm(OCTET *ImgIn, int S, int nH, int nW, int nTaille) {
 
   for (int i = 0; i < nH; i++)
     for (int j = 0; j < nW; j++) {
@@ -29,5 +23,5 @@ OCTET *threshold_pgm(const UI_CONFIG config, const int argc, char **argv) {
         ImgIn[i * nW + j] = 0;
     }
 
-  return ImgIn;
+  return 1;
 }

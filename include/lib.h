@@ -13,8 +13,7 @@ typedef struct {
 
 UI_CONFIG Load(const int argc, char **argv);
 
-OCTET *threshold_pgm(const UI_CONFIG config, const int argc, char **argv);
-
+int threshold_pgm(OCTET *ImgIn, int S, int nH, int nW, int nTaille);
 typedef enum { CIRCULAR, RECTANGULAR } BrushShape;
 
 typedef struct {
@@ -24,8 +23,7 @@ typedef struct {
 
 } Brush;
 
-int delate(Brush *brush, int pixels[], const int width, const int height);
+int erode(OCTET *ImgIn, int nH, int nW, int nTaille);
 
-int erode(Brush *brush, int pixels[], int width, int height);
-
+int dilate(OCTET *ImgIn, int nH, int nW, int nTaille);
 #endif // THRESHOLD_H
