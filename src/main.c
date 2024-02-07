@@ -96,6 +96,15 @@ int main(int argc, char **argv) {
     threshold_pgm(ImgIn, atoi(argv[4]), nH, nW, nTaille);
     dilate(ImgIn, ImgOut, nH, nW, nTaille);
     break;
+  case INVERSE:
+    negate(nTaille, ImgIn, ImgOut);
+    break;
+  case BLUR:
+    blur_1(nW - 1, nH, ImgIn, ImgOut);
+    break;
+  case BLUR_2:
+    blur_2(nW - 1, nH, ImgIn, ImgOut);
+    break;
   default:
     printf("NO JOB CORRESPONDING\n");
     exit(1);
