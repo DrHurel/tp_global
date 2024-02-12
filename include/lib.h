@@ -11,8 +11,13 @@ typedef enum {
   DILATE,
   BLUR,
   BLUR_2,
-  INVERSE
+  INVERSE,
+  BLUR_COLOR,
+  DISTRIB,
+  PROFIL
 } APP_JOB;
+
+typedef enum { LINE, COLUMN } PROFIL_MODE;
 
 typedef struct {
   APP_JOB job;
@@ -37,8 +42,12 @@ int negate(int n, OCTET *ImgIn, OCTET *ImgOut);
 int erode(OCTET *ImgIn, OCTET *ImgOut, int nH, int nW, int nTaille);
 
 int dilate(OCTET *ImgIn, OCTET *ImgOut, int nH, int nW, int nTaille);
-int blur_1(int width, int height, OCTET *ImgIn, OCTET *ImgOut);
-int blur_2(int width, int height, OCTET *ImgIn, OCTET *ImgOut);
+int blur_1(int radius, int width, int height, OCTET *ImgIn, OCTET *ImgOut);
+int blur_2(int radius, int width, int height, OCTET *ImgIn, OCTET *ImgOut);
+int blur_color(int radius, int width, int height, OCTET *ImgIn, OCTET *ImgOut);
 
 int selection(OCTET *ImgIn, OCTET *ImgOut, int nH, int nW, int nTaille);
+
+int ecrire_histo(char *nom_image, int *occurence, int n);
+int get_distrib(int nbOccurence[256], OCTET *ImgIn, int nW, int nH);
 #endif // THRESHOLD_H

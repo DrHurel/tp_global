@@ -2,13 +2,14 @@
 #include "../../include/lib.h"
 #include <stdio.h>
 
-int blur_1(int width, int height, OCTET *ImgIn, OCTET *ImgOut) {
-
-  for (int i = 0; i < width; i++) {
-    for (int j = 0; j < height; j++) {
-      int mean = 0;
-      int count = 0;
-      for (int x = -1; x <= 1; x++) {
+int blur_1(int radius, int width, int height, OCTET *ImgIn, OCTET *ImgOut) {
+  int mean = 0;
+  int count = 0;
+  for (int i = 0; i < height; i++) {
+    for (int j = 0; j < width; j++) {
+      mean = 0;
+      count = 0;
+      for (int x = -radius; x <= radius; x++) {
         if (i + x >= 0 && i + x < height) {
           mean += (int)ImgIn[(i + x) * width + j];
           count += 1;
@@ -21,7 +22,9 @@ int blur_1(int width, int height, OCTET *ImgIn, OCTET *ImgOut) {
       if (count != 0) {
         mean = mean / count;
         ImgOut[i * width + j] = mean;
-      } else {
+      }
+      if (count == 0) {
+        printf("%d", ImgIn[i * width + j]);
         ImgOut[i * width + j] = ImgIn[i * width + j];
       }
     }

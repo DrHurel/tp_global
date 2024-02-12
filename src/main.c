@@ -15,14 +15,24 @@ int main(int argc, char **argv) {
   UI_CONFIG config = Load(argc, argv);
 
   OCTET *ImgIn, *ImgOut;
+  int occurence[256];
   int nH, nW, nTaille;
 
-  lire_nb_lignes_colonnes_image_pgm(config.target, &nH, &nW);
-  nTaille = nH * nW;
+  if (config.job != BLUR_COLOR) {
+    lire_nb_lignes_colonnes_image_pgm(config.target, &nH, &nW);
+    nTaille = nH * nW;
 
-  allocation_tableau(ImgIn, OCTET, nTaille);
-  allocation_tableau(ImgOut, OCTET, nTaille);
-  lire_image_pgm(config.target, ImgIn, nTaille);
+    allocation_tableau(ImgIn, OCTET, nTaille);
+    allocation_tableau(ImgOut, OCTET, nTaille);
+    lire_image_pgm(config.target, ImgIn, nTaille);
+  } else {
+    lire_nb_lignes_colonnes_image_ppm(config.target, &nH, &nW);
+    nTaille = nH * nW;
+
+    allocation_tableau(ImgIn, OCTET, nTaille * 3);
+    allocation_tableau(ImgOut, OCTET, nTaille * 3);
+    lire_image_ppm(config.target, ImgIn, nTaille);
+  }
 
   switch (config.job) {
   case THRESHOLD:
@@ -97,21 +107,65 @@ int main(int argc, char **argv) {
     dilate(ImgIn, ImgOut, nH, nW, nTaille);
     break;
   case INVERSE:
+    if (argc < 4) {
+      printf("usage : %s [target_file] [output_file] [job]\n", argv[0]);
+      exit(1);
+    }
+    printf("INVERTE\n");
     negate(nTaille, ImgIn, ImgOut);
+
     break;
   case BLUR:
-    blur_1(nW - 1, nH, ImgIn, ImgOut);
+    if (argc < 5) {
+      printf("usage : %s [target_file] [output_file] [job] [radius]\n",
+             argv[0]);
+      exit(1);
+    }
+    printf("BLUR\n");
+    blur_1(atoi(argv[4]), nW, nH, ImgIn, ImgOut);
     break;
   case BLUR_2:
-    blur_2(nW - 1, nH, ImgIn, ImgOut);
+    if (argc < 5) {
+      printf("usage : %s [target_file] [output_file] [job] [radius\n", argv[0]);
+      exit(1);
+    }
+    printf("BLUR\n");
+    blur_2(atoi(argv[4]), nW, nH, ImgIn, ImgOut);
     break;
+  case BLUR_COLOR:
+    if (argc < 5) {
+      printf("usage : %s [target_file] [output_file] [job] [radius]\n",
+             argv[0]);
+      exit(1);
+    }
+    printf("BLUR\n");
+    blur_color(atoi(argv[4]), nW, nH, ImgIn, ImgOut);
+    break;
+  case DISTRIB:
+    get_distrib(occurence, ImgIn, nW, nH);
+    ecrire_histo(config.output, occurence, 256);
+    return 0;
+  case PROFIL:
+    if (argc < 6) {
+      printf("usage : %s [target_file] [output_file] [job] [mode] [n]\n",
+             argv[0]);
+      exit(1);
+    }
+    get_profil(occurence, ImgIn, nW, nH);
+    ecrire_histo(config.output, occurence);
+    return 0;
   default:
     printf("NO JOB CORRESPONDING\n");
     exit(1);
     break;
   }
 
-  ecrire_image_pgm(config.output, ImgOut, nH, nW);
-
+  if (config.job != BLUR_COLOR) {
+    ecrire_image_pgm(config.output, ImgOut, nH, nW);
+  } else {
+    ecrire_image_ppm(config.output, ImgOut, nH, nW);
+  }
+  free(ImgIn);
+  free(ImgOut);
   return 0;
 }

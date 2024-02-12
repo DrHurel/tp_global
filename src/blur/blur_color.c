@@ -1,20 +1,21 @@
 #include "../../include/image_pm.h"
 #include "../../include/lib.h"
+#include "../../include/utils.h"
 #include <stdio.h>
 
-int blur_2(int radius, int width, int height, OCTET *ImgIn, OCTET *ImgOut) {
+int blur_color(int radius, int width, int height, OCTET *ImgIn, OCTET *ImgOut) {
 
   for (int i = 0; i < width; i++) {
+
     for (int j = 0; j < height; j++) {
+
       int mean = 0;
       int count = 0;
       for (int x = -radius; x <= radius; x++) {
         for (int y = -radius; y <= radius; y++) {
-          int target = (i + x) * width + j + y;
-          if (target > 0 && target < width * height) {
-            mean += (int)ImgIn[(i + x) * width + j + y];
-            count += 1;
+          if (i + x > 0 && y + j > 0) {
           }
+          RGB_Pixel temp = getPixel(ImgIn, x, y, width);
         }
       }
       if (count != 0) {
