@@ -1,13 +1,7 @@
 #include "../include/lib.h"
+#include "gradient.h"
 #include <stdio.h>
 #include <stdlib.h>
-
-int copy(OCTET *ImgIn, OCTET *ImgOut, int nH, int nW, int nTaille) {
-  for (int i = 0; i < nTaille; i++) {
-    ImgOut[i] = ImgIn[i];
-  }
-  return 1;
-}
 
 int main(int argc, char **argv) {
   printf("Hello World!\n");
@@ -53,17 +47,17 @@ int main(int argc, char **argv) {
     printf("HIGHLIGHT\n");
     threshold_pgm(ImgIn, atoi(argv[4]), nH, nW);
     erode(ImgIn, ImgOut, nH, nW);
-    copy(ImgOut, ImgIn, nH, nW, nTaille);
+    copy(ImgOut, ImgIn, nTaille);
     erode(ImgIn, ImgOut, nH, nW);
-    copy(ImgOut, ImgIn, nH, nW, nTaille);
+    copy(ImgOut, ImgIn, nTaille);
     erode(ImgIn, ImgOut, nH, nW);
-    copy(ImgOut, ImgIn, nH, nW, nTaille);
+    copy(ImgOut, ImgIn, nTaille);
     dilate(ImgIn, ImgOut, nH, nW);
-    copy(ImgOut, ImgIn, nH, nW, nTaille);
+    copy(ImgOut, ImgIn, nTaille);
     dilate(ImgIn, ImgOut, nH, nW);
-    copy(ImgOut, ImgIn, nH, nW, nTaille);
+    copy(ImgOut, ImgIn, nTaille);
     dilate(ImgIn, ImgOut, nH, nW);
-    copy(ImgOut, ImgIn, nH, nW, nTaille);
+    copy(ImgOut, ImgIn, nTaille);
     erode(ImgIn, ImgOut, nH, nW);
     // copy(ImgOut, ImgIn, nH, nW, nTaille);
     // erode(ImgIn, ImgOut, nH, nW, nTaille);
@@ -77,13 +71,13 @@ int main(int argc, char **argv) {
     printf("SELECT\n");
     threshold_pgm(ImgIn, atoi(argv[4]), nH, nW);
     erode(ImgIn, ImgOut, nH, nW);
-    copy(ImgIn, ImgOut, nH, nW, nTaille);
+    copy(ImgIn, ImgOut, nTaille);
     erode(ImgIn, ImgOut, nH, nW);
-    copy(ImgIn, ImgOut, nH, nW, nTaille);
+    copy(ImgIn, ImgOut, nTaille);
     dilate(ImgIn, ImgOut, nH, nW);
-    copy(ImgIn, ImgOut, nH, nW, nTaille);
+    copy(ImgIn, ImgOut, nTaille);
     dilate(ImgIn, ImgOut, nH, nW);
-    copy(ImgIn, ImgOut, nH, nW, nTaille);
+    copy(ImgIn, ImgOut, nTaille);
     selection(ImgIn, ImgOut, nH, nW);
     break;
   case ERODE:
@@ -161,6 +155,30 @@ int main(int argc, char **argv) {
     }
 
     return 0;
+  case GRADIENT:
+    map_gradient(ImgIn, ImgOut, nW, nH);
+    break;
+  case THRESHOLD_GRADIENT:
+    if (argc < 5) {
+      printf("usage : %s [target_file] [output_file] [job] [threshold]\n",
+             argv[0]);
+      exit(1);
+    }
+
+    threshold_gradient(ImgIn, ImgOut, nW, nH, atoi(argv[4]));
+    break;
+  case THRESHOLD_GRADIENT_HYS:
+    if (argc < 6) {
+      printf("usage : %s [target_file] [output_file] [job] [threshold_high] "
+             "[threshold_down]\n",
+             argv[0]);
+      exit(1);
+    }
+
+    threshold_gradient_hys(ImgIn, ImgOut, nW, nH, atoi(argv[4]), atoi(argv[5]),
+                           1);
+    printf("done\n");
+    break;
   default:
     printf("NO JOB CORRESPONDING\n");
     exit(1);
@@ -168,11 +186,13 @@ int main(int argc, char **argv) {
   }
 
   if (config.job != BLUR_COLOR) {
+    printf("start\n");
     ecrire_image_pgm(config.output, ImgOut, nH, nW);
+    printf("test\n");
   } else {
     ecrire_image_ppm(config.output, ImgOut, nH, nW);
   }
-  free(ImgIn);
-  free(ImgOut);
+  // free(ImgIn);
+  // free(ImgOut);
   return 0;
 }

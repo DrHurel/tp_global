@@ -4,7 +4,6 @@
 // Created On      : Tue Mar 31 13:26:36 2005
 // ----------------------------------------------------------------------------
 
-#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

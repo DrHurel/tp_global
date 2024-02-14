@@ -14,7 +14,10 @@ typedef enum {
   INVERSE,
   BLUR_COLOR,
   DISTRIB,
-  PROFIL
+  PROFIL,
+  GRADIENT,
+  THRESHOLD_GRADIENT,
+  THRESHOLD_GRADIENT_HYS
 } APP_JOB;
 
 typedef enum { LINE, COLUMN } PROFIL_MODE;
@@ -52,4 +55,6 @@ int ecrire_histo(char *nom_image, int *occurence, int n);
 int get_distrib(int nbOccurence[256], OCTET *ImgIn, int nW, int nH);
 int get_profil(PROFIL_MODE mode, OCTET *ImgIn, int *nbOccurence, int n,
                int index, int width);
+
+int copy(OCTET *ImgIn, OCTET *ImgOut, int nTaille);
 #endif // THRESHOLD_H
