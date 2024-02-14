@@ -27,7 +27,7 @@ typedef struct {
 
 UI_CONFIG Load(const int argc, char **argv);
 
-int threshold_pgm(OCTET *ImgIn, int S, int nH, int nW, int nTaille);
+int threshold_pgm(OCTET *ImgIn, int S, int nH, int nW);
 typedef enum { CIRCULAR, RECTANGULAR } BrushShape;
 
 typedef struct {
@@ -39,15 +39,17 @@ typedef struct {
 
 int negate(int n, OCTET *ImgIn, OCTET *ImgOut);
 
-int erode(OCTET *ImgIn, OCTET *ImgOut, int nH, int nW, int nTaille);
+int erode(OCTET *ImgIn, OCTET *ImgOut, int nH, int nW);
 
-int dilate(OCTET *ImgIn, OCTET *ImgOut, int nH, int nW, int nTaille);
+int dilate(OCTET *ImgIn, OCTET *ImgOut, int nH, int nW);
 int blur_1(int radius, int width, int height, OCTET *ImgIn, OCTET *ImgOut);
 int blur_2(int radius, int width, int height, OCTET *ImgIn, OCTET *ImgOut);
 int blur_color(int radius, int width, int height, OCTET *ImgIn, OCTET *ImgOut);
 
-int selection(OCTET *ImgIn, OCTET *ImgOut, int nH, int nW, int nTaille);
+int selection(OCTET *ImgIn, OCTET *ImgOut, int nH, int nW);
 
 int ecrire_histo(char *nom_image, int *occurence, int n);
 int get_distrib(int nbOccurence[256], OCTET *ImgIn, int nW, int nH);
+int get_profil(PROFIL_MODE mode, OCTET *ImgIn, int *nbOccurence, int n,
+               int index, int width);
 #endif // THRESHOLD_H

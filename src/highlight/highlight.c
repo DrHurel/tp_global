@@ -4,7 +4,7 @@
 
 #include <stdbool.h>
 
-int erode(OCTET *ImgIn, OCTET *ImgOut, int nH, int nW, int nTaille) {
+int erode(OCTET *ImgIn, OCTET *ImgOut, int nH, int nW) {
 
   // erode the image
   for (int i = 0; i < nH; i++) {
@@ -30,7 +30,7 @@ int erode(OCTET *ImgIn, OCTET *ImgOut, int nH, int nW, int nTaille) {
   return 1;
 }
 
-int dilate(OCTET *ImgIn, OCTET *ImgOut, int nH, int nW, int nTaille) {
+int dilate(OCTET *ImgIn, OCTET *ImgOut, int nH, int nW) {
 
   // dilate the image
   for (int i = 0; i < nH; i++) {
@@ -56,7 +56,7 @@ int dilate(OCTET *ImgIn, OCTET *ImgOut, int nH, int nW, int nTaille) {
   return 1;
 }
 
-int selection(OCTET *ImgIn, OCTET *ImgOut, int nH, int nW, int nTaille) {
+int selection(OCTET *ImgIn, OCTET *ImgOut, int nH, int nW) {
   for (int i = 0; i < nH; i++) {
     for (int j = 0; j < nW; j++) {
       if (ImgIn[i * nW + j] == 0) { // if the pixel is black

@@ -13,7 +13,7 @@ static int intCompare(const void *p1, const void *p2) {
     return 1;
 }
 
-int threshold_pgm(OCTET *ImgIn, int S, int nH, int nW, int nTaille) {
+int threshold_pgm(OCTET *ImgIn, int S, int nH, int nW) {
 
   for (int i = 0; i < nH; i++)
     for (int j = 0; j < nW; j++) {

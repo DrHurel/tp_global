@@ -42,7 +42,7 @@ int main(int argc, char **argv) {
       exit(1);
     }
     printf("THRESHOLD\n");
-    threshold_pgm(ImgIn, atoi(argv[4]), nH, nW, nTaille);
+    threshold_pgm(ImgIn, atoi(argv[4]), nH, nW);
     break;
   case HIGHLIGHT:
     if (argc < 5) {
@@ -51,20 +51,20 @@ int main(int argc, char **argv) {
       exit(1);
     }
     printf("HIGHLIGHT\n");
-    threshold_pgm(ImgIn, atoi(argv[4]), nH, nW, nTaille);
-    erode(ImgIn, ImgOut, nH, nW, nTaille);
+    threshold_pgm(ImgIn, atoi(argv[4]), nH, nW);
+    erode(ImgIn, ImgOut, nH, nW);
     copy(ImgOut, ImgIn, nH, nW, nTaille);
-    erode(ImgIn, ImgOut, nH, nW, nTaille);
+    erode(ImgIn, ImgOut, nH, nW);
     copy(ImgOut, ImgIn, nH, nW, nTaille);
-    erode(ImgIn, ImgOut, nH, nW, nTaille);
+    erode(ImgIn, ImgOut, nH, nW);
     copy(ImgOut, ImgIn, nH, nW, nTaille);
-    dilate(ImgIn, ImgOut, nH, nW, nTaille);
+    dilate(ImgIn, ImgOut, nH, nW);
     copy(ImgOut, ImgIn, nH, nW, nTaille);
-    dilate(ImgIn, ImgOut, nH, nW, nTaille);
+    dilate(ImgIn, ImgOut, nH, nW);
     copy(ImgOut, ImgIn, nH, nW, nTaille);
-    dilate(ImgIn, ImgOut, nH, nW, nTaille);
+    dilate(ImgIn, ImgOut, nH, nW);
     copy(ImgOut, ImgIn, nH, nW, nTaille);
-    erode(ImgIn, ImgOut, nH, nW, nTaille);
+    erode(ImgIn, ImgOut, nH, nW);
     // copy(ImgOut, ImgIn, nH, nW, nTaille);
     // erode(ImgIn, ImgOut, nH, nW, nTaille);
     break;
@@ -75,16 +75,16 @@ int main(int argc, char **argv) {
       exit(1);
     }
     printf("SELECT\n");
-    threshold_pgm(ImgIn, atoi(argv[4]), nH, nW, nTaille);
-    erode(ImgIn, ImgOut, nH, nW, nTaille);
+    threshold_pgm(ImgIn, atoi(argv[4]), nH, nW);
+    erode(ImgIn, ImgOut, nH, nW);
     copy(ImgIn, ImgOut, nH, nW, nTaille);
-    erode(ImgIn, ImgOut, nH, nW, nTaille);
+    erode(ImgIn, ImgOut, nH, nW);
     copy(ImgIn, ImgOut, nH, nW, nTaille);
-    dilate(ImgIn, ImgOut, nH, nW, nTaille);
+    dilate(ImgIn, ImgOut, nH, nW);
     copy(ImgIn, ImgOut, nH, nW, nTaille);
-    dilate(ImgIn, ImgOut, nH, nW, nTaille);
+    dilate(ImgIn, ImgOut, nH, nW);
     copy(ImgIn, ImgOut, nH, nW, nTaille);
-    selection(ImgIn, ImgOut, nH, nW, nTaille);
+    selection(ImgIn, ImgOut, nH, nW);
     break;
   case ERODE:
     if (argc < 5) {
@@ -93,8 +93,8 @@ int main(int argc, char **argv) {
       exit(1);
     }
     printf("ERODE\n");
-    threshold_pgm(ImgIn, atoi(argv[4]), nH, nW, nTaille);
-    erode(ImgIn, ImgOut, nH, nW, nTaille);
+    threshold_pgm(ImgIn, atoi(argv[4]), nH, nW);
+    erode(ImgIn, ImgOut, nH, nW);
     break;
   case DILATE:
     if (argc < 5) {
@@ -103,8 +103,8 @@ int main(int argc, char **argv) {
       exit(1);
     }
     printf("DILATE\n");
-    threshold_pgm(ImgIn, atoi(argv[4]), nH, nW, nTaille);
-    dilate(ImgIn, ImgOut, nH, nW, nTaille);
+    threshold_pgm(ImgIn, atoi(argv[4]), nH, nW);
+    dilate(ImgIn, ImgOut, nH, nW);
     break;
   case INVERSE:
     if (argc < 4) {
@@ -151,8 +151,15 @@ int main(int argc, char **argv) {
              argv[0]);
       exit(1);
     }
-    get_profil(occurence, ImgIn, nW, nH);
-    ecrire_histo(config.output, occurence);
+    int mode = atoi(argv[4]);
+    if (mode == LINE) {
+      get_profil(mode, ImgIn, occurence, nW, atoi(argv[5]), nW);
+      ecrire_histo(config.output, occurence, nW);
+    } else {
+      get_profil(mode, ImgIn, occurence, nH, atoi(argv[5]), nW);
+      ecrire_histo(config.output, occurence, nH);
+    }
+
     return 0;
   default:
     printf("NO JOB CORRESPONDING\n");
